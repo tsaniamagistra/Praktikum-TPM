@@ -60,22 +60,23 @@ class MyApp extends StatelessWidget {
                         width: double.infinity,
                         height: 50.0,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            print('Login pressed');
+                          },
                           style: buildButtonStyle(),
                           child: Text(
                             'LOGIN',
                             style: TextStyle(fontSize: 17.0, letterSpacing: 3.0, color: Colors.white),
                           ),
-
                         ),
                       ),
                       SizedBox(height: 15.0),
                       GestureDetector(
                         onTap: () {
-                          print('Forgot Password? pressed');
+                          print('Forgot password? tapped');
                         },
                         child: Text(
-                          'Forgot Password?',
+                          'Forgot password?',
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
