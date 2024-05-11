@@ -24,8 +24,9 @@ class CategoriesPage extends StatelessWidget {
             return _buildErrorSection();
           }
           if (snapshot.hasData) {
-            CategoriesModel categoriesModel = CategoriesModel.fromJson(snapshot.data);
-            return _buildSuccessSection(categoriesModel);
+            CategoriesModel categoriesModel =
+                CategoriesModel.fromJson(snapshot.data);
+            return _buildSuccessSection(context, categoriesModel);
           }
           return _buildLoadingSection();
         },
@@ -43,27 +44,90 @@ class CategoriesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSuccessSection(CategoriesModel data) {
-    return PageView.builder(
+  Widget _buildSuccessSection(BuildContext context, CategoriesModel data) {
+    return ListView.builder(
       itemCount: data.categories?.length ?? 0,
       itemBuilder: (context, index) {
         final Categories? category = data.categories?[index];
         if (category == null) {
           return Container();
         }
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+        return InkWell(
+          onTap: () {
+            _showCategoryDetailsDialog(context, category);
+          },
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.network(
+                    category.strCategoryThumb ?? '',
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    category.strCategory ?? '',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                      _truncateDescription(category.strCategoryDescription) ??
+                          '',
+                      textAlign: TextAlign.justify),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  String? _truncateDescription(String? description) {
+    if (description != null && description.length > 170) {
+      return description.substring(0, 170) + '...';
+    }
+    return description;
+  }
+
+  void _showCategoryDetailsDialog(BuildContext context, Categories category) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Image.network(category.strCategoryThumb ?? '')
+                Image.network(
+                  category.strCategoryThumb ?? '',
+                  fit: BoxFit.cover,
                 ),
-                SizedBox(height: 5),
-                Text(category.strCategory ?? ''),
-                SizedBox(height: 5),
-                Text(category.strCategoryDescription ?? ''),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        category.strCategory ?? '',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(category.strCategoryDescription ?? '',
+                          textAlign: TextAlign.justify),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
