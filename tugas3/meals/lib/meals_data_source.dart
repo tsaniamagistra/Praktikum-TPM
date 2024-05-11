@@ -15,6 +15,6 @@ class MealsDataSource {
 
   Future<Map<String, dynamic>> loadDetail(String meal) {
     return BaseNetwork.get(
-        'filter.php?c=$meal');
+        'lookup.php?i=$meal');
   }
 }

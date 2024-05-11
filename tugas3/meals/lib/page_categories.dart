@@ -65,7 +65,7 @@ class CategoriesPage extends StatelessWidget {
                 children: [
                   Image.network(
                     category.strCategoryThumb ?? '',
-                    height: 106,
+                    height: MediaQuery.of(context).size.height * 0.13,
                   ),
                   SizedBox(height: 5),
                   Text(

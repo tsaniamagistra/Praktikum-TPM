@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:meals/meals_data_source.dart';
 import 'package:meals/model_meals.dart';
+import 'package:meals/page_detail.dart';
 
 class MealsPage extends StatelessWidget {
   final String category;
@@ -56,9 +57,9 @@ class MealsPage extends StatelessWidget {
         }
         return InkWell(
           onTap: () {
-            /*Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return DetailPage();
-            }));*/
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return DetailPage(idMeal: meal.idMeal!);
+            }));
           },
           child: Card(
             child: Column(
