@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals/meals_data_source.dart';
 import 'package:meals/model_categories.dart';
+import 'package:meals/page_meals.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
@@ -126,7 +127,10 @@ class CategoriesPage extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-
+                              Navigator.pop(context);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                return MealsPage(category: category.strCategory!);
+                              }));
                             },
                             child: Text(
                               'See Meals >>',
