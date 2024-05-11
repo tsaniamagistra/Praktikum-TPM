@@ -64,7 +64,7 @@ class CategoriesPage extends StatelessWidget {
                 children: [
                   Image.network(
                     category.strCategoryThumb ?? '',
-                    fit: BoxFit.cover,
+                    height: 106,
                   ),
                   SizedBox(height: 5),
                   Text(
@@ -112,15 +112,30 @@ class CategoriesPage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        category.strCategory ?? '',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            category.strCategory ?? '',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+
+                            },
+                            child: Text(
+                              'See Meals >>',
+                              style: TextStyle(
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: 5),
                       Text(category.strCategoryDescription ?? '',
