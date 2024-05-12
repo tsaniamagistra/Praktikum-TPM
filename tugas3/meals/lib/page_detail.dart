@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals/meals_data_source.dart';
 import 'package:meals/model_detail.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatelessWidget {
   final String idMeal;
@@ -15,6 +16,7 @@ class DetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: _buildDetailBody(),
       ),
+      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
@@ -44,6 +46,28 @@ class DetailPage extends StatelessWidget {
     );
   }
 
+  Widget _buildFloatingActionButton() {
+    return FutureBuilder(
+      future: MealsDataSource.instance.loadDetail(idMeal),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container();
+        }
+        if (snapshot.hasData) {
+          DetailModel mealsModel = DetailModel.fromJson(snapshot.data);
+          return FloatingActionButton(
+            onPressed: () {
+              launchURL(mealsModel.meals?.first?.strYoutube ?? '');
+            },
+            tooltip: 'Watch Tutorial',
+            child: Icon(Icons.play_arrow),
+          );
+        }
+        return Container();
+      },
+    );
+  }
+
   Widget _buildSuccessSection(BuildContext context, DetailModel data) {
     final Meals? detail = data.meals?.first;
     return Padding(
@@ -66,6 +90,13 @@ class DetailPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Origin: ${detail?.strArea ?? ''}',
+                  style: TextStyle(
+                    fontSize: 16,
                   ),
                 ),
               ],
@@ -104,7 +135,24 @@ class DetailPage extends StatelessWidget {
 
     List<Widget> ingredientWidgets = List.generate(
       ingredients.length,
-          (index) => Text('- ${ingredients[index]}: ${measures[index]}'),
+      (index) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2.0),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                ingredients[index] ?? '',
+              ),
+            ),
+            SizedBox(width: 8),
+            Expanded(
+              flex: 3,
+              child: Text(measures[index] ?? ''),
+            ),
+          ],
+        ),
+      ),
     );
 
     return Column(
@@ -143,25 +191,29 @@ class DetailPage extends StatelessWidget {
       if (detail.strIngredient9 != null && detail.strIngredient9!.isNotEmpty) {
         ingredients.add(detail.strIngredient9);
       }
-      if (detail.strIngredient10 != null && detail.strIngredient10!.isNotEmpty) {
+      if (detail.strIngredient10 != null &&
+          detail.strIngredient10!.isNotEmpty) {
         ingredients.add(detail.strIngredient10);
       }
-      if (detail.strIngredient11 != null && detail.strIngredient11!.isNotEmpty) {
+      if (detail.strIngredient11 != null &&
+          detail.strIngredient11!.isNotEmpty) {
         ingredients.add(detail.strIngredient11);
       }
-      if (detail.strIngredient12 != null && detail.strIngredient12!.isNotEmpty) {
+      if (detail.strIngredient12 != null &&
+          detail.strIngredient12!.isNotEmpty) {
         ingredients.add(detail.strIngredient12);
       }
-      if (detail.strIngredient13 != null && detail.strIngredient13!.isNotEmpty) {
+      if (detail.strIngredient13 != null &&
+          detail.strIngredient13!.isNotEmpty) {
         ingredients.add(detail.strIngredient13);
       }
-      if (detail.strIngredient14 != null && detail.strIngredient14!.isNotEmpty) {
+      if (detail.strIngredient14 != null &&
+          detail.strIngredient14!.isNotEmpty) {
         ingredients.add(detail.strIngredient14);
       }
     }
     return ingredients;
   }
-
 
   List<String?> _extractMeasures(Meals? detail) {
     List<String?> measures = [];
@@ -211,5 +263,11 @@ class DetailPage extends StatelessWidget {
     }
     return measures;
   }
+}
 
+Future<void> launchURL(String url) async {
+  final Uri _url = Uri.parse(url);
+  if (!await launchUrl(_url)) {
+    throw "Couldn't launch $_url";
+  }
 }
