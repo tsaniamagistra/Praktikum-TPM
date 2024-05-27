@@ -85,8 +85,10 @@ class _TeamPageState extends State<TeamPage> {
     return Center(
       child: Column(
         children: [
-          Image.network(data?.logoClubUrl ?? ''),
-          SizedBox(height: 5),
+          Image.network(data?.logoClubUrl ?? '',
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height * 0.4,),
+          SizedBox(height: 10),
           Text(
             data?.nameClub ?? '',
             style: TextStyle(
@@ -94,56 +96,56 @@ class _TeamPageState extends State<TeamPage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text('Head Coach',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               )),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text(
             data?.nameClub ?? '',
             style: TextStyle(
               fontSize: 14,
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text('Captain',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               )),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text(
             data?.captainName ?? '',
             style: TextStyle(
               fontSize: 14,
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text('Stadium Name',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               )),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text(
             data?.stadiumName ?? '',
             style: TextStyle(
               fontSize: 14,
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text('Logo URL',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               )),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           ElevatedButton(
               onPressed: (){
                 launchURL(data?.logoClubUrl ?? '');
-              }, child: Icon(Icons.arrow_outward),
+              }, child: Icon(Icons.launch),
           )
         ],
       ),
