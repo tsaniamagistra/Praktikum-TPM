@@ -87,7 +87,7 @@ class HomePage extends StatelessWidget {
                     Text(
                       data.country ?? '',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 14,
                       ),
                     ),
                   ],

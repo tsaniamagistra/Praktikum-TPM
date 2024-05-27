@@ -89,7 +89,7 @@ class LeaguePage extends StatelessWidget {
                     Text(
                       data.headCoach ?? '',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 14,
                       ),
                     ),
                   ],
